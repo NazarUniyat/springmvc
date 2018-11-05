@@ -1,0 +1,27 @@
+body{
+    background-color: grey ;
+    margin: 0;
+    padding: 0;
+    border: 0;
+
+}
+header{
+    height: 200px;
+    background-color: grey;
+
+}
+.left-menu{
+    width: 300px;
+    background-color: azure;
+    float: left;
+
+}
+.main-window{
+    background-color: darkgrey;
+
+}
+.search-column-row{
+    background-color: coral;
+
+}
+

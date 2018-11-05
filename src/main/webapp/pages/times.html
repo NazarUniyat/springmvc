@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>TIME</h1>
+<form th:action="@{/times}" method="post">
+    <input type="date" name="date" placeholder="time">
+    <select name="start" id="start">
+        <option value="9">9:00</option>
+        <option value="12">12:00</option>
+        <option value="15">15:00</option>
+        <option value="18">18:00</option>
+        <option value="21">21:00</option>
+    </select>
+    <select name="end" id="end">
+        <option value="9">9:00</option>
+        <option value="12">12:00</option>
+        <option value="15">15:00</option>
+        <option value="18">18:00</option>
+        <option value="21">21:00</option>
+    </select>
+    <input type="submit" name="" placeholder="">
+
+    <input type="hidden"
+           name="${_csrf.parameterName}"
+           value="${_csrf.token}"/>
+</form>
+
+</body>
+</html>

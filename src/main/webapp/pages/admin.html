@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Admin</title>
+</head>
+<body>
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-secondary">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+            aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#">WookieBookiee</a>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Places</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Events</a>
+            </li>
+        </ul>
+
+        <!--<form class="form-inline my-2 my-lg-0">-->
+        <!--<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
+        <!--<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>-->
+        <!--</form>-->
+        <form class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post">
+            <input class="form-control mr-sm-2" type="submit" value="Logout">
+            <input type="hidden"
+                   name="${_csrf.parameterName}"
+                   value="${_csrf.token}"/>
+        </form>
+    </div>
+</nav>
+
+<div class=" container p-5">
+    <div class="row p-3 mt-5 border bg-light rounded ">
+        <p class="col text-left m-0" th:text="${adminName}"></p>
+        <p class="col text-right text-danger m-0">Admin</p>
+    </div>
+    <div class="p-3 border rounded row">
+        <div class="col-md-3">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="unchecked-pills-tab" data-toggle="pill" href="#unchecked-pills"
+                   role="tab" aria-controls="unchecked-pills" aria-selected="true">Unchecked managers</a>
+                <a class="nav-link" id="search-pills-tab" data-toggle="pill" href="#search-pills" role="tab"
+                   aria-controls="search-pills" aria-selected="false">Account Search</a>
+                <a class="nav-link" id="create-admin-pills-tab" data-toggle="pill" href="#create-admin-pills" role="tab"
+                   aria-controls="create-admin-pills" aria-selected="false">Create Account</a>
+                <a class="nav-link" id="edit-pills-tab" data-toggle="pill" href="#edit-pills" role="tab"
+                   aria-controls="edit-pills" aria-selected="false">Editing</a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="unchecked-pills" role="tabpanel"
+                     aria-labelledby="unchecked-pills-tab">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <!--<th scope="col">Place</th>-->
+                            <!--<th scope="col">Active</th>-->
+                            <th scope="col">#</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="m:${manager}">
+                            <tr>
+                                <th scope="row" th:text="${m.id}"></th>
+                                <td th:text="${m.accountType}"></td>
+                                <td th:text="${m.username}"></td>
+                                <td th:text="${m.email}"></td>
+                                <td th:text="${m.firstName}"></td>
+                                <td th:text="${m.lastName}"></td>
+                                <td>La piezz</td>
+                                <!--<td th:text="${m.isAccountNonLocked}"></td>-->
+                                <td><a class="btn btn-success"
+                                       th:href="'/admin/active/manager/id/' + ${m.id}">Confirm</a></td>
+                            </tr>
+                        </th:block>
+                        <!--<tr>-->
+                        <!--<th scope="row">1</th>-->
+                        <!--<td>Manager</td>-->
+                        <!--<td>man123</td>-->
+                        <!--<td>@mdo</td>-->
+                        <!--<td>John</td>-->
+                        <!--<td>Smith</td>-->
+                        <!--<td>La piezz</td>-->
+                        <!--<td><a class="btn btn-success" href="">Confirm</a></td>-->
+                        <!--</tr>-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="search-pills" role="tabpanel" aria-labelledby="search-pills-tab">
+                    <form id="admin-form" method="post">
+                        <div class="form-row align-items-center">
+                            <div class="col-auto my-1">
+                            <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+                            <select name='account-type' class="custom-select mr-sm-2" id="inlineFormCustomSelect"  >
+                            <option value="" selected>Account type</option>
+                            <option value="ROLE_MANAGER">Manager</option>
+                            <option value="ROLE_USER">User</option>
+                            <option value="ROLE_ADMIN">Admin</option>
+                            </select>
+                            </div>
+                            <div class="col-auto my-1">
+                                <input type="text" name='username' class="form-control" placeholder="Username">
+                            </div>
+                            <div class="col-auto my-1">
+                                <input type="email" name='email' class="form-control" placeholder="Email">
+                            </div>
+                        </div>
+                        <!--checkboxes-->
+                        <!--<div class="form-row align-items-center">-->
+                            <!--<div class="col-auto my-1">-->
+                                <!--<div class="custom-control custom-checkbox mr-sm-2">-->
+                                    <!--<input type="checkbox" class="custom-control-input" id="customControlAutosizing1">-->
+                                    <!--<label class="custom-control-label" for="customControlAutosizing1">Account Non-->
+                                        <!--Expired</label>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <div class="my-1">
+                            <button type="submit" class="btn btn-success">Search</button>
+                        </div>
+
+                    </form>
+
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <!--<th scope="col">Place</th>-->
+                            <th scope="col">Edit?</th>
+                        </tr>
+                        </thead>
+                        <tbody id='admin-table'>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="create-admin-pills" role="tabpanel"
+                     aria-labelledby="create-admin-pills-tab">
+                    <form th:action="@{/admin/saveUser}" method="post" id="form">
+                        <div class="form-group row">
+                            <label for="username" class="col-sm-2 col-form-label">Username*</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="username" id="username"
+                                       placeholder="Username" required>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label for="role" class="col-sm-2 col-form-label">Role*</label>
+                            <div class="col-sm-10">
+                                <select type="text" class="form-control" name="role" id="role"
+                                        placeholder="Role" required>
+                                    <option value="ROLE_USER">ROLE_USER</option>
+                                    <option value="ROLE_MANAGER">ROLE_MANAGER</option>
+                                    <option value="ROLE_ADMIN">ROLE_ADMIN</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label for="AccountType" class="col-sm-2 col-form-label">Account type*</label>
+                            <div class="col-sm-10">
+                                <select type="text" class="form-control" name="accountType" id="AccountType"
+                                        placeholder="AccountType" required>
+                                    <option value="user" data-action="/admin/saveUser">user</option>
+                                    <option value="manager" data-action="/admin/saveManager">manager</option>
+                                    <option value="admin" data-action="/admin/saveAdmin">admin</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label for="email" class="col-sm-2 col-form-label">Email*</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" name="email" id="email" placeholder="Email"
+                                       required>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label for="firstName" class="col-sm-2 col-form-label">First name*</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="firstName" id="firstName"
+                                       placeholder="First name"
+                                       required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="lastName" class="col-sm-2 col-form-label">Last name*</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="lastName" id="lastName"
+                                       placeholder="Last name"
+                                       required>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label for="password" class="col-sm-2 col-form-label">Password*</label>
+                            <div class="col-sm-10">
+                                <input type="password" name="password" class="form-control" id="password"
+                                       placeholder="Password" required>
+                            </div>
+                        </div>
+                        <!--<div class="form-group row">-->
+                        <!--<label for="firstName" class="col-sm-2 col-form-label">First name</label>-->
+                        <!--<div class="col-sm-10">-->
+                        <!--<input type="password" name="password" class="form-control" id="firstName" placeholder="Enter your first name">-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="form-group row">-->
+                        <!--<label for="lastName" class="col-sm-2 col-form-label">Last name</label>-->
+                        <!--<div class="col-sm-10">-->
+                        <!--<input type="password" name="password" class="form-control" id="lastName" placeholder="Enter your last name">-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-success px-4 py-2 my-3">Create account</button>
+                            </div>
+                        </div>
+
+                        <input type="hidden"
+                               name="${_csrf.parameterName}"
+                               value="${_csrf.token}"/>
+
+
+                    </form>
+                </div>
+                <!--<div class="tab-pane fade" id="create-admin-pills" role="tabpanel"-->
+                <!--aria-labelledby="create-admin-pills-tab">-->
+                <!--<form>-->
+                <!--<div class="form-group row">-->
+                <!--<label for="username" class="col-sm-2 col-form-label">Username*</label>-->
+                <!--<div class="col-sm-10">-->
+                <!--<input type="text" class="form-control" name="username" id="username"-->
+                <!--placeholder="Username" required>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-group row">-->
+                <!--<label for="email" class="col-sm-2 col-form-label">Email*</label>-->
+                <!--<div class="col-sm-10">-->
+                <!--<input type="email" class="form-control" name="email" id="email" placeholder="Email"-->
+                <!--required>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-group row">-->
+                <!--<label for="password" class="col-sm-2 col-form-label">Password*</label>-->
+                <!--<div class="col-sm-10">-->
+                <!--<input type="password" name="password" class="form-control" id="password"-->
+                <!--placeholder="Password" required>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--&lt;!&ndash;<div class="form-group row">&ndash;&gt;-->
+                <!--&lt;!&ndash;<label for="firstName" class="col-sm-2 col-form-label">First name</label>&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="col-sm-10">&ndash;&gt;-->
+                <!--&lt;!&ndash;<input type="password" name="password" class="form-control" id="firstName" placeholder="Enter your first name">&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="form-group row">&ndash;&gt;-->
+                <!--&lt;!&ndash;<label for="lastName" class="col-sm-2 col-form-label">Last name</label>&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="col-sm-10">&ndash;&gt;-->
+                <!--&lt;!&ndash;<input type="password" name="password" class="form-control" id="lastName" placeholder="Enter your last name">&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--<div class="form-group row">-->
+                <!--<div class="col-sm-10">-->
+                <!--<button type="submit" class="btn btn-success px-4 py-2 my-3">Create admin</button>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</form>-->
+                <!--</div>-->
+                <div class="tab-pane fade" id="edit-pills" role="tabpanel" aria-labelledby="edit-pills-tab">
+                    <div class="accordion" id="accordionExample">
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse"
+                                            data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        User
+                                    </button>
+                                </h5>
+                            </div>
+
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                 data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <form>
+                                        <div class="form-group row">
+                                            <label for="ususername" class="col-sm-2 col-form-label">Username</label>
+                                            <div class="col-sm-10">
+                                                <input type="email" class="form-control" name="username" id="ususername"
+                                                       placeholder="Username">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="usemail" class="col-sm-2 col-form-label">Email</label>
+                                            <div class="col-sm-10">
+                                                <input type="email" class="form-control" name="email" id="usemail"
+                                                       placeholder="Email">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="uspassword" class="col-sm-2 col-form-label">Password</label>
+                                            <div class="col-sm-10">
+                                                <input type="password" name="password" class="form-control"
+                                                       id="uspassword" placeholder="Password">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="usfirstName" class="col-sm-2 col-form-label">First name</label>
+                                            <div class="col-sm-10">
+                                                <input type="password" name="password" class="form-control"
+                                                       id="usfirstName" placeholder="Enter your first name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="uslastName" class="col-sm-2 col-form-label">Last name</label>
+                                            <div class="col-sm-10">
+                                                <input type="password" name="password" class="form-control"
+                                                       id="uslastName" placeholder="Enter your last name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-10">
+                                                <button type="submit" class="btn btn-success px-4 py-2 my-3">Update
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="headingTwo">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                            data-target="#collapseTwo" aria-expanded="false"
+                                            aria-controls="collapseTwo">
+                                        Manager
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                 data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <form>
+                                        <div class="form-group row">
+                                            <label for="musername" class="col-sm-2 col-form-label">Username</label>
+                                            <div class="col-sm-10">
+                                                <input type="email" class="form-control" name="username" id="musername"
+                                                       placeholder="Username">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="memail" class="col-sm-2 col-form-label">Email</label>
+                                            <div class="col-sm-10">
+                                                <input type="email" class="form-control" name="email" id="memail"
+                                                       placeholder="Email">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="mpassword" class="col-sm-2 col-form-label">Password</label>
+                                            <div class="col-sm-10">
+                                                <input type="password" name="password" class="form-control"
+                                                       id="mpassword" placeholder="Password">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="mfirstName" class="col-sm-2 col-form-label">First name</label>
+                                            <div class="col-sm-10">
+                                                <input type="password" name="password" class="form-control"
+                                                       id="mfirstName" placeholder="Enter your first name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="mlastName" class="col-sm-2 col-form-label">Last name</label>
+                                            <div class="col-sm-10">
+                                                <input type="password" name="password" class="form-control"
+                                                       id="mlastName" placeholder="Enter your last name">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <button class="btn btn-outline-success  px-4 py-2" type="button"
+                                                        data-toggle="collapse" data-target="#collapseExample"
+                                                        aria-expanded="false" aria-controls="collapseExample">
+                                                    Edit place
+                                                </button>
+                                            </div>
+                                            <div class="collapse" id="collapseExample">
+                                                <div class="m-3">
+                                                    <div class="form-group row">
+                                                        <label for="pName" class="col-sm-3 col-form-label">Name</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" name="name" class="form-control"
+                                                                   id="pName" placeholder="Enter place`s name">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="pAddress"
+                                                               class="col-sm-3 col-form-label">Address</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" name="name" class="form-control"
+                                                                   id="pAddress" placeholder="Enter place`s address">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="pCity" class="col-sm-3 col-form-label">City</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" name="name" class="form-control"
+                                                                   id="pCity" placeholder="Enter place`s city">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="pSpecification" class="col-sm-3 col-form-label">Specification</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" name="name" class="form-control"
+                                                                   id="pSpecification"
+                                                                   placeholder="Enter place`s specification">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-10">
+                                                    <button type="submit" class="btn btn-success px-4 py-2 my-3">
+                                                        Update
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    (function () {
+        var theForm = document.getElementById('form');
+        var theSelector = document.getElementById('AccountType');
+
+        theSelector.onchange = function () {
+            theForm.action = theSelector[theSelector.selectedIndex].getAttribute('data-action');
+        }
+    })();
+</script>
+
+<!--<script src="/js/adminSearch.js"></script>-->
+<script src='https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js'></script>
+<script src="/js/asyncDataLoader.js"></script>
+<script src="/js/adminForm.config.js"></script>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</body>
+</html>

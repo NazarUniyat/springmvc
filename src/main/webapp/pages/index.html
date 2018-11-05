@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<div>
+    <h1>Sign Up</h1>
+    <form th:action="@{/save}" method="post" id="form">
+
+        <input type="text" name="username" placeholder="name" style="margin-top: 5px"><br>
+        <!--<input type="text" name="firstName" placeholder="firstname" style="margin-top: 5px">-->
+        <!--<input type="text" name="lastName" placeholder="lastname" style="margin-top: 5px">-->
+        <input type="email" name="email" placeholder="email" style="margin-top: 5px"><br>
+        <input type="password" name="password" placeholder="pass" style="margin-top: 5px"><br>
+        <input type="radio" name="acctype" value="user" onclick="change()">user<br>
+        <input type="radio" name="acctype" value="manager" onclick="change1()">manager<br>
+        <input type="radio" name="acctype" value="admin" onclick="change2()">admin<br>
+        <input type="submit" name="" placeholder="" style="margin-top: 5px"><br>
+
+        <input type="hidden"
+               name="${_csrf.parameterName}"
+               value="${_csrf.token}"/>
+    </form>
+</div>
+
+
+
+<!--jkkjj-->
+<!--<p><a th:href="'/create/manager_page'" th:text="'create manager'"></a></p>-->
+
+<p><a th:href="'/admin/page'" th:text="'Admin page'"></a></p>
+<p><a th:href="'/createAdmin'" th:text="'Create Admin'"></a></p>
+<p><a th:href="'/places'" th:text="'places'"></a></p>
+
+<h1>Send Email</h1>
+<form th:action="@{/sentMail}" method="post">
+    <input type="email" name="email" placeholder="mail">
+    <input type="text" name="subject" placeholder="subject">
+    <input type="text" name="message" placeholder="message">
+
+    <input type="submit" name="" placeholder="">
+</form>
+<!--
+
+<a th:href="@{/times}">TIMES</a>
+<h1>TIME</h1>
+<form th:action="@{/times}" method="post">
+    <input type="date" name="date" placeholder="time">
+    <select name="start" id="start">
+        <option value="9">9:00</option>
+        <option value="12">12:00</option>
+        <option value="15">15:00</option>
+        <option value="18">18:00</option>
+        <option value="21">21:00</option>
+    </select>
+    <select name="end" id="end">
+        <option value="9">9:00</option>
+        <option value="12">12:00</option>
+        <option value="15">15:00</option>
+        <option value="18">18:00</option>
+        <option value="21">21:00</option>
+    </select>
+    <input type="submit" name="" placeholder="">
+
+    <input type="hidden"
+           name="${_csrf.parameterName}"
+           value="${_csrf.token}"/>
+</form>
+-->
+
+<form th:action="@{/upload}"  method="post"  enctype="multipart/form-data">
+    <input type="file" name="file" placeholder="file">
+    <input type="submit" name="" placeholder="">
+
+
+    <input type="hidden"
+           name="${_csrf.parameterName}"
+           value="${_csrf.token}"/>
+</form>
+
+
+
+<div th:if="${#strings.isEmpty(username)}">
+    <h3>Hello</h3>
+    <form th:action="@{/login}" method="post">
+        <input type="text" name="username" placeholder="username">
+        <input type="password" name="password" placeholder="password">
+        <input type="submit" value="go!">
+        <input type="hidden"
+               name="${_csrf.parameterName}"
+               value="${_csrf.token}"/>
+    </form>
+</div>
+<div th:unless="${#strings.isEmpty(username)}">
+    <h3> Person name - <em th:text=" ${username}"></em></h3>
+    <h3> Person role - <em th:text=" ${role}"></em></h3>
+    <h3> Account role - <em th:text=" ${accType}"></em></h3>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Logout">
+
+        <input type="hidden"
+               name="${_csrf.parameterName}"
+               value="${_csrf.token}"/>
+    </form>
+</div>
+<div style="width: 200px; height: 200px">
+    <img th:each="image:${images}"
+            th:src="@{${image}}" width="300px" height="300px">
+</div>
+
+
+
+<script>
+    function change() {
+        document.getElementById("form").setAttribute('action', '/save');
+    }
+    function change1() {
+        document.getElementById("form").setAttribute('action', '/save/manager');
+    }    
+    function change2() {
+        document.getElementById("form").setAttribute('action', '/save/admin');
+    }
+</script>
+
+
+</body>
+</html>

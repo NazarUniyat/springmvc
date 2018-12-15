@@ -99,8 +99,10 @@ public class ManagerController {
     public String deletePlace() {
         Manager manager = (Manager) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         System.out.println(manager);
+        int placeId = manager.getPlace().getPlaceId();
         manager.setPlace(null);
         accountService.save(manager);
+        placeService.deleteById(placeId);
         return "redirect:/manager-account";
     }
 

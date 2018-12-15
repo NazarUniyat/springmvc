@@ -30,6 +30,7 @@ import ua.com.owu.utils.TokenUtils;
 import javax.mail.MessagingException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -93,6 +94,11 @@ public class MainController {
 //    return "adminT";
 //    }
 
+    @GetMapping("user/page")
+    String userpage(){
+        return "login";
+    }
+
     @GetMapping("/managerPage")
     public String managerPage(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -107,50 +113,61 @@ public class MainController {
         return "managerPage";
     }
 
+    // нет пзжц хуйовий
+
+
+    @GetMapping("/login")
+    public String TestLogin(){
+        return "login";
+    }
+
     @GetMapping("/")
     public String home(Model model) {
-//        String path = System.getProperty("user.home")
-//                + File.separator
-//                + "IdeaProjects"
-//                + File.separator
-//                + "springmvc1"
-//                + File.separator
-//                + "pic"
-//                + File.separator;
-//
-//        File file = new File(path);
-//        File[] files= file.listFiles();
-//        List<String> strings = new ArrayList<>();
-//        for (File file1 : files) {
-//            strings.add("/pic/"+file1.getName());
-//        }
-//
-//        model.addAttribute("images",strings);
-        return "index";
-    }
+        String path = System.getProperty("user.home")
+                + File.separator
+                + "IdeaProjects"
+                + File.separator
+                + "springmvc"
+                + File.separator
+                + "pic"
+                + File.separator;
 
-    @GetMapping("/index")
-    public String index(Model model) {
+        File file = new File(path);
+        File[] files= file.listFiles();
+        List<String> strings = new ArrayList<>();
+        for (File file1 : files) {
+            strings.add("/pic/"+file1.getName());
+        }
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName(); //get logged in username
         Account byUsername = accountService.findByUsername(auth.getName());
-        Role role = byUsername.getRole();
-        String accountType = byUsername.getAccountType();
-        model.addAttribute("username", name);
-        model.addAttribute("role", role);
-        model.addAttribute("accType", accountType);
-        System.out.println(name);
+
+        if (byUsername==null){
+            model.addAttribute("accountType","null");
+        }
+        else {
+            model.addAttribute("accountType","logged");
+        }
+
+
+
+        model.addAttribute("images",strings);
         return "index";
     }
 
-    //temporary method to  create  admin
-    @GetMapping("/createAdmin")
-    public String createAdmin() {
-        Admin admin = new Admin(Role.ROLE_ADMIN, "admin", "admin", "as@as");
-        accountEditor.setValue(admin);
-        accountService.save(admin);
-        return "index";
-    }
+//    @GetMapping("/index")
+//    public String index(Model model) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        String name = auth.getName(); //get logged in username
+//        Account byUsername = accountService.findByUsername(auth.getName());
+//        Role role = byUsername.getRole();
+//        String accountType = byUsername.getAccountType();
+//        model.addAttribute("username", name);
+//        model.addAttribute("role", role);
+//        model.addAttribute("accType", accountType);
+//        System.out.println(name);
+//        return "index";
+//    }
 
 
     @PostMapping("/upload")
@@ -160,7 +177,7 @@ public class MainController {
                 + File.separator
                 + "IdeaProjects"
                 + File.separator
-                + "springmvc1"
+                + "springmvc"
                 + File.separator
                 + "pic"
                 + File.separator;
@@ -195,6 +212,7 @@ public class MainController {
                 errorMessage.append(" ").append(environment.getProperty(code));
             }
             model.addAttribute("error", errorMessage.toString());
+            return "redirect:/";
         }
         try {
             mailService.sendConfirmMessage(user.getEmail(), user);

@@ -25,7 +25,9 @@ public  class MySimpleUrlAuthenticationSuccessHandler
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
-                                        HttpServletResponse response, Authentication authentication)
+                                        HttpServletResponse response,
+                                        Authentication authentication
+    )
             throws IOException {
 
         handle(request, response, authentication);
@@ -71,7 +73,7 @@ public  class MySimpleUrlAuthenticationSuccessHandler
         }
 
         if (isUser) {
-            return "/index";
+            return "/";
         } else if (isManager) {
             return "/manager-account";
         }else if (isAdmin) {

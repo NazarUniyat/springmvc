@@ -1,18 +1,22 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
 
     <title>Places</title>
 </head>
+
 <body>
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-secondary">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+            aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="#">WookieBookiee</a>
@@ -20,13 +24,13 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" th:href="'/'">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Places</a>
+                <a class="nav-link" th:href="'/places'">Places</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Events</a>
+                <a class="nav-link" th:href="'/manager-account'">manager page</a>
             </li>
         </ul>
 
@@ -40,39 +44,51 @@
 <div class="container p-5">
     <h1 class="text-center py-5">Places</h1>
     <div class="row">
-    <main class="col-sm-9">
-
-
-
-
-                <div class="row border p-3 rounded m-3" th:each="place:${places}">
-                <div class="col-md-5">
-                    <img src="1.jpeg" class="img-fluid rounded"  alt="">
+        <main class="col-sm-9" id='places-list'>
+        </main>
+        <aside class="col-sm-3 my-3 border rounded">
+            <h4 class="text-center p-3">Filters</h4>
+            <form id="places-form" method="post">
+                <div class="form-row align-items-center">
+                    <div class="col-auto my-1">
+                        <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+                        <select name='specification' class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                            <option value="" selected>Spec</option>
+                            <option value="Bar">Bar</option>
+                            <option value="Pub">Pub</option>
+                            <option value="Restourant">Restourant</option>
+                        </select>
+                    </div>
+                    <div class="col-auto my-1">
+                        <input type="text" name='name' class="form-control" placeholder="Name">
+                    </div>
+                    <div class="col-auto my-1">
+                        <input type="text" name='city' class="form-control" placeholder="City">
+                    </div>
                 </div>
-                <div class="col-md-7">
-                    <h4 th:text="${place.getName()}"></h4>
-                    <h3 th:text="${place.getSpecification()}"></h3>
-                    <p th:text="${place.getAbout()}"></p>
-                    <a th:href="@{/places/{id}(id = ${place.getPlaceId()})}" class="btn btn-primary">More</a>
-                </div>
+                <div class="my-1">
+                    <button type="submit" class="btn btn-success">Search</button>
                 </div>
 
+            </form>
 
 
-
-
-    </main>
-    <aside class="col-sm-3   my-3 border rounded">
-        <h4 class="text-center p-3">Filters</h4>
-
-    </aside>
+        </aside>
     </div>
 </div>
 
+<script src='https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js'></script>
+<script src="/js/asyncDataLoader.js"></script>
+<script src='/js/eventList.config.js'></script>
+
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>

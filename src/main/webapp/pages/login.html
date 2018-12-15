@@ -1,0 +1,77 @@
+<!doctype html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/login.css">
+
+    <title>Admin</title>
+</head>
+<body>
+<div class="login-page">
+    <div class="form">
+        <form th:action="@{/save}" method="post" id="form" class="register-form">
+            <input type="text" name="username" placeholder="name"/>
+            <input type="email" name="email" placeholder="email"/>
+            <input type="password" name="password" placeholder="pass"/>
+
+                    <label class="mr-3">
+                        <input width="100%" type="radio" name="acctype" value="user" onclick="change()">user
+                    </label>
+                    <label class="mr-3">
+                        <input type="radio" name="acctype" value="manager" onclick="change1()">manager
+                    </label>
+                    <label>
+                        <input type="radio" name="acctype" value="admin" onclick="change2()">admin
+                    </label>
+            <button>create</button>
+            <input type="hidden"
+                   name="${_csrf.parameterName}"
+                   value="${_csrf.token}"/>
+            <p class="message">Already registered? <a href="#">Sign In</a></p>
+        </form>
+        <form class="login-form" th:action="@{/login}" method="post">
+            <input type="text" name="username" placeholder="username"/>
+            <input type="password" name="password" placeholder="password"/>
+            <button>login</button>
+            <input type="hidden"
+                   name="${_csrf.parameterName}"
+                   value="${_csrf.token}"/>
+            <p class="message">Not registered? <a href="#">Create an account</a></p>
+        </form>
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script>
+    $('.message a').click(function () {
+        $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+    });
+</script>
+<script>
+    function change() {
+        document.getElementById("form").setAttribute('action', '/save');
+    }
+
+    function change1() {
+        document.getElementById("form").setAttribute('action', '/save/manager');
+    }
+
+    function change2() {
+        document.getElementById("form").setAttribute('action', '/save/admin');
+    }
+</script>
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</body>
+</html>

@@ -8,6 +8,7 @@ import ua.com.owu.models.Account;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 public class AdminRestController {
 
@@ -39,17 +40,17 @@ public class AdminRestController {
     }
 
 
-    @RequestMapping(value = "/api/adminsearch/data", method = RequestMethod.GET)
-    @ResponseBody
-    public List<Account> getBarBySimplePathWithRequestParam(
-            @RequestParam(value = "username", defaultValue = "test") String username,
-            @RequestParam(value = "email", defaultValue = "test") String email,
-            @RequestParam(value = "role", defaultValue = "test") String role
-
-    ) {
-
-        return searchDAO.getUsers(username, email, role);
-    }
+//    @RequestMapping(value = "/api/adminsearch/data", method = RequestMethod.GET)
+//    @ResponseBody
+//    public List<Account> getBarBySimplePathWithRequestParam(
+//            @RequestParam(value = "username", defaultValue = "test") String username,
+//            @RequestParam(value = "email", defaultValue = "test") String email,
+//            @RequestParam(value = "role", defaultValue = "test") String role
+//
+//    ) {
+//
+//        return searchDAO.getUsers(username, email, role);
+//    }
 
 
     @DeleteMapping("/api/ad/{id}")

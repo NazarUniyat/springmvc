@@ -5,6 +5,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -12,6 +13,7 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
+import javax.servlet.annotation.WebFilter;
 import java.io.File;
 import java.util.Properties;
 
@@ -45,14 +47,19 @@ public class WebConfig extends WebMvcConfigurerAdapter  {
                         + File.separator
                         + "IdeaProjects"
                         + File.separator
-                        + "springmvc1"
+                        + "springmvc"
                         + File.separator
                         + "pic"
                         + File.separator
 
                 );
+
+        registry.addResourceHandler("/css/**")
+                .addResourceLocations("/css/");
+
         registry.addResourceHandler("/js/**")
                 .addResourceLocations("/scripts/");
+
     }
 
     @Bean

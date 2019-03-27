@@ -9,6 +9,7 @@ import ua.com.owu.models.User;
 
 @Component
 public class AccountValidator implements Validator {
+
     @Override
     public boolean supports(Class<?> aClass) {
         return aClass.equals(User.class);

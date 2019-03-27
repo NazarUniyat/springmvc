@@ -113,7 +113,6 @@ public class MainController {
         return "managerPage";
     }
 
-    // нет пзжц хуйовий
 
 
     @GetMapping("/login")
